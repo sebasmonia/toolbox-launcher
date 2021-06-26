@@ -28,6 +28,12 @@
                                                   (setf *selected-toolbox* (text toolbox-combo)
                                                         *command-text* (text command-entry))
                                                   (run-program-and-exit)))))
+      ;; focus on the combo to select the container
+      (focus toolbox-combo)
+      ;; Make exec-button the default action
+      (bind *tk* "<Return>" (lambda (evt)
+                              (declare (ignore evt))
+                              (funcall (command exec-button))))
       (grid toolbox-label 0 0 :padx 10 :pady 10 :sticky "w")
       (grid toolbox-combo 0 1 :padx 10 :pady 10 :sticky "w")
       (grid command-label 1 0 :padx 10 :pady 10 :sticky "w")
