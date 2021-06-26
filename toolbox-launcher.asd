@@ -13,7 +13,7 @@
   :serial t
   :build-operation "program-op"
   :build-pathname "toolbox-launcher"
-  :entry-point "toolbox-launcher:start-ui"
+  :entry-point "toolbox-launcher:init"
   :depends-on (#:alexandria
                #:uiop
                #:nodgui)

@@ -6,6 +6,6 @@
   (:import-from :alexandria)
   (:import-from :uiop)
   (:export
-   #:start-ui))
+   #:init))
 
 (in-package #:toolbox-launcher)

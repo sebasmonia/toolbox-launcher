@@ -2,26 +2,45 @@
 
 (in-package #:toolbox-launcher)
 
-(defvar *selected-toolbox* "fedora-toolbox-34" "The name of the selected the toolbox container name.")
+(defvar *selected-toolbox* "" "The name of the selected the toolbox container name.")
 (defvar *command-text* "emacs" "The command to execute.")
 (defvar *available-containers* nil "List of containers available.")
+
+(defvar *help-text* "Usage: toolbox-launcher [container-name] [command -and -arguments]
+
+Call \"toolbox run\" with the parameters specified in the UI.
+The optional command line arguments allow pre-filling the values of the window.")
+
+(defun init ()
+  "Initialize the application based on the CLI arguments (if any) and start the UI."
+  (let ((arguments (uiop:command-line-arguments)))
+    (if (string= "-h" (first arguments))
+        (show-help-and-exit)
+        (progn
+          (setf *selected-toolbox* (first arguments))
+          (setf *command-text* (format nil "~{~a ~}" (or (rest arguments) '("emacs"))))
+          (get-available-toolboxes))))
+  (start-ui))
+
+(defun show-help-and-exit ()
+  (format t "~a~%" *help-text*)
+  (uiop:quit 0))
 
 (defun start-ui ()
   "Launches the UI for toolbox-launcher."
   (with-nodgui (:title "toolbox launcher")
-    (get-available-toolboxes)
     (font-configure "TkDefaultFont" :size 12)
     (font-configure "TkTextFont" :size 12)
     (let* ((toolbox-label (make-instance 'label
                                          :text "Toolbox:"))
            (toolbox-combo (make-instance 'combobox
                                          ;; hardcoded...
-                                         :text "fedora-toolbox-34"
+                                         :text *selected-toolbox*
                                          :values *available-containers*))
            (command-label (make-instance 'label
                                          :text "Command:"))
            (command-entry (make-instance 'entry
-                                         :text "emacs"))
+                                         :text *command-text*))
            (exec-button (make-instance 'button
                                        :text "Execute"
                                        :command (lambda ()
@@ -48,13 +67,14 @@
                                         :output '(:string :stripped t)))
          (containers (subseq (uiop:split-string list-output :separator '(#\Newline)) 1)))
     (setf *available-containers* (loop for line in containers
-                                       collect (third (uiop:split-string line))))))
+                                       collect (third (uiop:split-string line))))
+    (unless *selected-toolbox*
+      (setf *selected-toolbox* (first *available-containers*)))))
 
 (defun run-program-and-exit ()
   "Run the program according to the parameters in the UI and exit."
   (uiop:launch-program
-   (format nil "toolbox run -c ~a ~a"
-           *selected-toolbox*
-           *command-text*))
+   (format nil "toolbox run -c ~a ~a" *selected-toolbox* *command-text*))
    ;; got this from reading the source, maybe there is a better way
-   (setf *exit-mainloop* t))
+  (setf *exit-mainloop* t)
+  (uiop:quit 0))
