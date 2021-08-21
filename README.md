@@ -5,7 +5,7 @@ I use this to decide on which toolbox to launch GUI Emacs in Fedora Silverblue.
 
 ## Installation
 
-You can compile your own version with the included `build.sh` script. You need SBCL with Quicklisp, and also Tcl and Tk..
+You can compile your own version with the included `build.sh` script. You need SBCL with Quicklisp, and also Tcl and Tk.
 
 Included in the "binary" directory is a pre-packaged Tcl+Tk downloaded from http://kitcreator.rkeene.org/kitcreator (the executable renamed from `tclkit` to `wish`) and `toolbox-launcher`. You can drop both files to `~/.local/bin` to use them in the base Silverblue system.
 
@@ -46,4 +46,4 @@ In the Gnome launcher it shows the regular icon, but instead uses this tiny wind
 
 ## Rationale
 
-I wanted to practice Common Lisp. That's all there is to this, because really this isn't that useful.
+I wanted to practice Common Lisp. That's all there is to it, because really this isn't that useful.
