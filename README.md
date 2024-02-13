@@ -3,6 +3,10 @@
 Common Lisp UI to run a graphical application using `toolbox run` from a single desktop launcher.  
 I use this to decide on which toolbox to launch GUI Emacs in Fedora Silverblue.
 
+## New GTK4 version!!!
+
+Head to https://git.sr.ht/~sebasmonia/toolbox-launcher-gtk4 for a newer version of the same utility, built using CL and GTK4. It's the same, just looks slightly nicer.
+
 ## Installation
 
 You can compile your own version with the included `build.sh` script. You need SBCL with Quicklisp, and also Tcl and Tk.
